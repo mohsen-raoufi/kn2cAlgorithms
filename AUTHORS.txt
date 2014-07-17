@@ -1,0 +1,7 @@
+AUTHORS
+========
+
+Mohammad Reza Karimi Dastjerdi <mr.karimi.d@gmail.com>
+Mohammad Amin Kashi <m.amin.kashi@gmail.com>
+Mohsen Raoufi  <mohsen.raoufi.2007@gmail.com>
+Faraz Fallahi	<fffaraz@gmail.com>
