@@ -19,11 +19,10 @@ PlayPenaltyOur::PlayPenaltyOur(WorldModel *worldmodel, QObject *parent) :
 
 int PlayPenaltyOur::enterCondition()
 {
-//    if(wm->cmgs.ourPenaltyKick())
-//        return 100;
-//    else
-//        return 0;
-    return 20000;
+    if(wm->cmgs.ourPenaltyKick())
+        return 100;
+    else
+        return 0;
 }
 
 void PlayPenaltyOur::execute()
