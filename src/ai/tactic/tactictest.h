@@ -2,7 +2,7 @@
 #define TACTICTEST_H
 
 #include "tactic.h"
-struct allAgents
+struct AgentsAndRegions
 {
     Vector2D pos;
     int goalRegion;
@@ -16,18 +16,20 @@ public:
     virtual RobotCommand getCommand();
     void addData();
     void mergeData();
+    void sortData();
 
 private:
-    QList<Vector2D> agentsR1;
+    QList<Vector2D> agentsR0;
     //QList<Vector2D> a4fSorted;
-    QList<Vector2D> agentsR2;
-    QList<allAgents> mergedList;
+    QList<Vector2D> agentsR1;
+    QList<AgentsAndRegions> mergedList;
     //QList<Vector2D> a4sSorted;
-    Rect2D region1;
-    Rect2D region2;
+    Rect2D region[2];
+    //Rect2D region2;
     bool firstInit;
     int state;
     int index;
+    int goalRegion;
     int temp;
 };
 

@@ -4,15 +4,15 @@
 TacticTest::TacticTest(WorldModel *worldmodel, QObject *parent) :
     Tactic("TacticTest", worldmodel, parent)
 {
-//    agentsR1.push_back(wm->oppRobot[0].pos.loc);
-//    agentsR1.append(wm->oppRobot[1].pos.loc);
-//    agentsR1.append(wm->oppRobot[2].pos.loc);
+//    agentsR0.push_back(wm->oppRobot[0].pos.loc);
+//    agentsR0.append(wm->oppRobot[1].pos.loc);
+//    agentsR0.append(wm->oppRobot[2].pos.loc);
 
-//    agentsR2.insert(0,wm->ourRobot[0].pos.loc);
-//    agentsR2.insert(1,wm->oppRobot[4].pos.loc);
-//    agentsR2.insert(2,wm->oppRobot[5].pos.loc);
-    region1.assign(Vector2D(-1000,1500),Size2D(1000,500));
-    region2.assign(Vector2D(-1000,-2000),Size2D(1000,500));
+//    agentsR1.insert(0,wm->ourRobot[0].pos.loc);
+//    agentsR1.insert(1,wm->oppRobot[4].pos.loc);
+//    agentsR1.insert(2,wm->oppRobot[5].pos.loc);
+    region[0].assign(Vector2D(-1000,1500),Size2D(1000,500));
+    region[1].assign(Vector2D(-1000,-2000),Size2D(1000,500));
     state=0;
     index=0;
     firstInit=false;
@@ -27,14 +27,17 @@ RobotCommand TacticTest::getCommand()
 
     addData();
     mergeData();
+    sortData();
 
-    for(int i=0;i<agentsR2.size();i++)
+    for(int i=0;i<mergedList.size();i++)
     {
         temp=0;
-        if(!region2.IsInside(agentsR2.at(i)))
+        if(!region[mergedList.at(i).goalRegion].IsInside(mergedList.at(i).pos))
         {
+            qDebug() << mergedList.at(i).pos.x << " Y ---- " << mergedList.at(i).pos.y;// TOOOOOOOOOOOOOOOOOOOSHE !!!!!!!" << index ;
             index=i;
-            temp++;
+            goalRegion=mergedList.at(i).goalRegion;
+            temp=1;
             break;
         }
 
@@ -43,16 +46,16 @@ RobotCommand TacticTest::getCommand()
 
     //Vector2D point2 = region1.bottomRight();
     //Vector2D point3 =wm->ball.pos.loc;
-    //qDebug()<<"count:"<<agentsR2.count();
+    //qDebug()<<"count:"<<agentsR1.count();
     //bool inside = region2.IsInside(wm->ball.pos.loc);
     //qDebug() << "topleft:" << point.x << " ------- y : " << point.y << inside;//
     //qDebug() << "topright:" << point2.x << " ------- y : " << point2.y;
     //qDebug() << "ball:" << point3.x << " ------- y : " << point3.y;
-    //agentsR2.clear();
+    //agentsR1.clear();
 
 
-    Vector2D point2 = agentsR2.at(index);//;//temp.loc;//wm->ourRobot[id].pos.loc;//agentsR1.first().loc;
-    Vector2D diff2 = region2.center() - point2;// wm->ourRobot[id].pos.loc ;
+    Vector2D point2 = mergedList.at(index).pos;//;//temp.loc;//wm->ourRobot[id].pos.loc;//agentsR0.first().loc;
+    Vector2D diff2 = region[goalRegion].center() - point2;// wm->ourRobot[id].pos.loc ;
     bool reach=false;
 
 
@@ -98,16 +101,17 @@ RobotCommand TacticTest::getCommand()
     }
         break;
     case 3:{//Release
-        if(region2.IsInside(point2))
+
+        if(region[goalRegion].IsInside(point2))
         {
             qDebug() << " INNNNNNNNNNNN SIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIDE !!!";
-            //if(index==agentsR2.size()) rc.fin_pos.loc=Vector2D(0,0);
+            //if(index==agentsR1.size()) rc.fin_pos.loc=Vector2D(0,0);
             if(temp==0)
             {
                 rc.fin_pos.loc=Vector2D(0,0);
                 break;
             }
-            //agentsR2.takeFirst();
+            //agentsR1.takeFirst();
             //index++;
         }
         //if(reach)
@@ -117,10 +121,18 @@ RobotCommand TacticTest::getCommand()
     }
     }
 
-    qDebug() << rc.fin_pos.loc.x << " -------  Y = " << rc.fin_pos.loc.y << " STATE = " << state;
+//    for(int i=0;i<mergedList.size();i++)
+//    {
+//        Vector2D point3=mergedList.at(i).pos;
+//        qDebug() << point3.x << " ----- Y= " << point3.y << "    STATE = " << state << " REGION = " << mergedList.at(i).goalRegion ;
+//    }
+//
+    //Vector2D point3=region[mergedList.at(index).goalRegion].center();
+    //qDebug() << point3.x << " ----- Y= " << point3.y;
+    //qDebug() << rc.fin_pos.loc.x << " -------  Y = " << rc.fin_pos.loc.y << " STATE = " << state;
+    qDebug() << "STATE = " << state;
 
-
-
+    //rc.fin_pos.loc=Vector2D(0,0);
     //rc.useNav = false;
     rc.isBallObs = false;
     rc.isKickObs = true;
@@ -129,38 +141,49 @@ RobotCommand TacticTest::getCommand()
 
 void TacticTest::addData()
 {
-    //a4sSorted.clear();
-    agentsR2.clear();
-    agentsR2.insert(0,wm->ball.pos.loc);//wm->ourRobot[0].pos.loc);
-    agentsR2.insert(1,wm->ourRobot[1].pos.loc);
-    agentsR2.insert(2,wm->ourRobot[2].pos.loc);
-    //a4sSorted=agentsR2 ;
 
-    for(int i=0;i<agentsR2.size();i++)
-    {
-        for(int k=i+1;k<agentsR2.size();k++)
-        {
-            if((agentsR2.at(i)-region2.center()).length2() > (agentsR2.at(k)-region2.center()).length2()) agentsR2.swap(i,k);
-        }
+    agentsR1.clear();
+    agentsR1.insert(0,wm->ball.pos.loc);//wm->ourRobot[0].pos.loc);
+    agentsR1.insert(1,wm->ourRobot[1].pos.loc);
+    agentsR1.insert(2,wm->ourRobot[2].pos.loc);
 
-    }
+    agentsR0.clear();
+    agentsR0.insert(0,wm->ourRobot[4].pos.loc);//wm->ourRobot[0].pos.loc);
+    agentsR0.insert(1,wm->ourRobot[5].pos.loc);
+    agentsR0.insert(2,wm->oppRobot[0].pos.loc);
+
+
 }
 
 void TacticTest::mergeData()
 {
-    for(int i=0;i<agentsR1.size();i++)
+    mergedList.clear();
+    for(int i=0;i<agentsR0.size();i++)
     {
-        allAgents temp;
-        temp.pos=agentsR1.at(i);
-        temp.goalRegion=1;
+        AgentsAndRegions temp;
+        temp.pos=agentsR0.at(i);
+        temp.goalRegion=0;
         mergedList.insert(i,temp);
     }
 
-    for(int i=0;i<agentsR2.size();i++)
+    for(int i=0;i<agentsR1.size();i++)
     {
-        allAgents temp;
-        temp.pos=agentsR2.at(i);
-        temp.goalRegion=2;
-        mergedList.insert(i+agentsR1.size(),temp);
+        AgentsAndRegions temp;
+        temp.pos=agentsR1.at(i);
+        temp.goalRegion=1;
+        mergedList.insert(i+agentsR0.size(),temp);
+    }
+}
+
+void TacticTest::sortData()
+{
+    for(int i=0;i<mergedList.size();i++)
+    {
+        for(int k=i+1;k<mergedList.size();k++)
+        {
+            if( (mergedList.at(i).pos-region[mergedList.at(i).goalRegion].center()).length2()
+              > (mergedList.at(k).pos-region[mergedList.at(k).goalRegion].center()).length2() ) mergedList.swap(i,k);
+        }
+
     }
 }
