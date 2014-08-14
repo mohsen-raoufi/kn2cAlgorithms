@@ -4,13 +4,13 @@
 TacticTest::TacticTest(WorldModel *worldmodel, QObject *parent) :
     Tactic("TacticTest", worldmodel, parent)
 {
-//    agentsForFirstRegion.push_back(wm->oppRobot[0].pos.loc);
-//    agentsForFirstRegion.append(wm->oppRobot[1].pos.loc);
-//    agentsForFirstRegion.append(wm->oppRobot[2].pos.loc);
+//    agentsR1.push_back(wm->oppRobot[0].pos.loc);
+//    agentsR1.append(wm->oppRobot[1].pos.loc);
+//    agentsR1.append(wm->oppRobot[2].pos.loc);
 
-//    agentsForSecondRegion.insert(0,wm->ourRobot[0].pos.loc);
-//    agentsForSecondRegion.insert(1,wm->oppRobot[4].pos.loc);
-//    agentsForSecondRegion.insert(2,wm->oppRobot[5].pos.loc);
+//    agentsR2.insert(0,wm->ourRobot[0].pos.loc);
+//    agentsR2.insert(1,wm->oppRobot[4].pos.loc);
+//    agentsR2.insert(2,wm->oppRobot[5].pos.loc);
     region1.assign(Vector2D(-1000,1500),Size2D(1000,500));
     region2.assign(Vector2D(-1000,-2000),Size2D(1000,500));
     state=0;
@@ -26,10 +26,12 @@ RobotCommand TacticTest::getCommand()
     rc.maxSpeed = 1.2;
 
     addData();
-    for(int i=0;i<agentsForSecondRegion.size();i++)
+    mergeData();
+
+    for(int i=0;i<agentsR2.size();i++)
     {
         temp=0;
-        if(!region2.IsInside(agentsForSecondRegion.at(i)))
+        if(!region2.IsInside(agentsR2.at(i)))
         {
             index=i;
             temp++;
@@ -39,20 +41,21 @@ RobotCommand TacticTest::getCommand()
     }
 
 
-
     //Vector2D point2 = region1.bottomRight();
     //Vector2D point3 =wm->ball.pos.loc;
-    //qDebug()<<"count:"<<agentsForSecondRegion.count();
+    //qDebug()<<"count:"<<agentsR2.count();
     //bool inside = region2.IsInside(wm->ball.pos.loc);
     //qDebug() << "topleft:" << point.x << " ------- y : " << point.y << inside;//
     //qDebug() << "topright:" << point2.x << " ------- y : " << point2.y;
     //qDebug() << "ball:" << point3.x << " ------- y : " << point3.y;
-    //agentsForSecondRegion.clear();
+    //agentsR2.clear();
 
 
-    Vector2D point2 = agentsForSecondRegion.at(index);//;//temp.loc;//wm->ourRobot[id].pos.loc;//agentsForFirstRegion.first().loc;
+    Vector2D point2 = agentsR2.at(index);//;//temp.loc;//wm->ourRobot[id].pos.loc;//agentsR1.first().loc;
     Vector2D diff2 = region2.center() - point2;// wm->ourRobot[id].pos.loc ;
     bool reach=false;
+
+
     if(temp!=0)
     {
     switch(state)
@@ -86,6 +89,7 @@ RobotCommand TacticTest::getCommand()
         //Vector2D diff2 = region2.center() - wm->ourRobot[id].pos.loc ;
         rc.useNav = false;
         if(diff2.length() > 1500) diff2.setLength(1500);
+        if(((wm->ourRobot[id].pos.loc-point2).length())>400) state=0;
         rc.fin_pos.loc=point2 + diff2/5;
         rc.fin_pos.dir=diff2.dir().radian();
         reach=wm->kn->ReachedToPos(wm->ourRobot[id].pos.loc,rc.fin_pos.loc,150);
@@ -97,13 +101,13 @@ RobotCommand TacticTest::getCommand()
         if(region2.IsInside(point2))
         {
             qDebug() << " INNNNNNNNNNNN SIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIDE !!!";
-            //if(index==agentsForSecondRegion.size()) rc.fin_pos.loc=Vector2D(0,0);
+            //if(index==agentsR2.size()) rc.fin_pos.loc=Vector2D(0,0);
             if(temp==0)
             {
                 rc.fin_pos.loc=Vector2D(0,0);
                 break;
             }
-            //agentsForSecondRegion.takeFirst();
+            //agentsR2.takeFirst();
             //index++;
         }
         //if(reach)
@@ -125,8 +129,38 @@ RobotCommand TacticTest::getCommand()
 
 void TacticTest::addData()
 {
-    agentsForSecondRegion.clear();
-    agentsForSecondRegion.insert(0,wm->ball.pos.loc);//wm->ourRobot[0].pos.loc);
-    agentsForSecondRegion.insert(1,wm->ourRobot[1].pos.loc);
-    agentsForSecondRegion.insert(2,wm->ourRobot[2].pos.loc);
+    //a4sSorted.clear();
+    agentsR2.clear();
+    agentsR2.insert(0,wm->ball.pos.loc);//wm->ourRobot[0].pos.loc);
+    agentsR2.insert(1,wm->ourRobot[1].pos.loc);
+    agentsR2.insert(2,wm->ourRobot[2].pos.loc);
+    //a4sSorted=agentsR2 ;
+
+    for(int i=0;i<agentsR2.size();i++)
+    {
+        for(int k=i+1;k<agentsR2.size();k++)
+        {
+            if((agentsR2.at(i)-region2.center()).length2() > (agentsR2.at(k)-region2.center()).length2()) agentsR2.swap(i,k);
+        }
+
+    }
+}
+
+void TacticTest::mergeData()
+{
+    for(int i=0;i<agentsR1.size();i++)
+    {
+        allAgents temp;
+        temp.pos=agentsR1.at(i);
+        temp.goalRegion=1;
+        mergedList.insert(i,temp);
+    }
+
+    for(int i=0;i<agentsR2.size();i++)
+    {
+        allAgents temp;
+        temp.pos=agentsR2.at(i);
+        temp.goalRegion=2;
+        mergedList.insert(i+agentsR1.size(),temp);
+    }
 }
