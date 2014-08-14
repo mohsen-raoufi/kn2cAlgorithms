@@ -823,6 +823,8 @@ public:
                       Vector2D * sol1,
                       Vector2D * sol2 ) const;
 
+
+
     /*!
       \brief convert this rectangle to the intersection rectangle with other.
       If no intersection between rectangles, this rectangle becomes empty.
@@ -862,6 +864,23 @@ public:
       {
           return Rect2D( *this ) |= other;
       }
+
+    /*!
+        \brief detect that a point is inside this rect or not
+        \param a point
+        \return true(is inside) or false
+      */
+    bool IsInside(const Vector2D & point)
+    {
+        if( ( (point.x < this->maxX()) & (point.x > this->minX()) ) &
+            ( (point.y < this->maxY()) & (point.y > this->minY()) ) )
+        {
+            return true;
+        }
+        else return false;
+    }
+
+
 };
 
 /*!
@@ -892,6 +911,10 @@ operator|( const rcsc::Rect2D & lhs,
 {
     return rcsc::Rect2D( lhs ) |= rhs;
 }
+
+
+
+
 
 }
 

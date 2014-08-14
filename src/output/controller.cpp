@@ -457,7 +457,7 @@ MotorSpeed Controller::calcSimul(RobotSpeed rs)
     motor[3][0] = rotate[3][0] * speed[0][0] + rotate[3][1] * speed[1][0] + rotate[3][2] * speed[2][0];
 
     //qDebug()<<"M0:"<<motor[0][0]<<"M1:"<<motor[1][0]<<"M2:"<<motor[2][0]<<"M3:"<<motor[3][0];
-   qDebug()<<err1.y;
+   //qDebug()<<err1.y;
     //out << err1.y <<" "<< endl;
     MotorSpeed result;
 

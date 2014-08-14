@@ -13,7 +13,8 @@ int PlayTest::enterCondition()
 
 void PlayTest::execute()
 {
-    tactics[1]=tTest;
+
+    tactics[3]=tTest;
     return ;
 
 }
