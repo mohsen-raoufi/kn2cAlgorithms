@@ -17,5 +17,6 @@
 #include "tactic/tacticfixedpos.h"
 #include "tactic/tactictechnical.h"
 #include "tactic/tacticpenaltykicker.h"
+#include "tactic/tactictransferobject.h"
 
 #endif // TACTICS_H

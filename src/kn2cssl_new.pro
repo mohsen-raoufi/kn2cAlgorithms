@@ -160,7 +160,8 @@ SOURCES +=	main.cpp \
     ai/play/playtest2.cpp \
     ai/tactic/tacticfixedpos.cpp \
     ai/tactic/tactictechnical.cpp \
-    ai/tactic/tacticpenaltykicker.cpp
+    ai/tactic/tacticpenaltykicker.cpp \
+    ai/tactic/tactictransferobject.cpp
 
 HEADERS  += \
     etc/settings.h \
@@ -255,7 +256,8 @@ HEADERS  += \
     ai/play/playtest2.h \
     ai/tactic/tacticfixedpos.h \
     ai/tactic/tactictechnical.h \
-    ai/tactic/tacticpenaltykicker.h
+    ai/tactic/tacticpenaltykicker.h \
+    ai/tactic/tactictransferobject.h
 
 FORMS    +=	ui/mainwindow.ui
 
