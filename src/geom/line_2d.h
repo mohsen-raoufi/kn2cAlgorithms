@@ -313,7 +313,7 @@ public:
       }
 
     /*!
-      \brief make perpendicular bisector line from twt points
+      \brief make perpendicular bisector line from two points
       \param p1 1st point
       \param p2 2nd point
       \return line object

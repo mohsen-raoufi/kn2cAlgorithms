@@ -13,6 +13,10 @@ public:
 
 private:
     TacticTest *tTest;
+    //TacticTransferObject *tTest;
+
+
+    //Line2D *testline;
 
 };
 

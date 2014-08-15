@@ -22,7 +22,7 @@ RobotCommand TacticTransferObject::getCommand()
     RobotCommand rc;
     if(!wm->ourRobot[id].isValid) return rc;
 
-    rc.maxSpeed = 1.2;
+    rc.maxSpeed = 0.4;
 
     addData();
     mergeData();
@@ -66,7 +66,7 @@ RobotCommand TacticTransferObject::getCommand()
 
         Vector2D space2=diff2;
         space2.setLength(300);
-        rc.maxSpeed=1.5;
+        rc.maxSpeed=0.8;
         rc.useNav = true;
         rc.fin_pos.loc=point2 - space2;
         rc.fin_pos.dir=diff2.dir().radian();
@@ -77,7 +77,7 @@ RobotCommand TacticTransferObject::getCommand()
         break;
     case 1:{//Ready to Push
         rc.useNav = false;
-        rc.maxSpeed=0.7;
+        rc.maxSpeed=0.4;
         rc.fin_pos.loc.x=point2.x - 100*(diff2.x)/(diff2.length());
         rc.fin_pos.loc.y=point2.y - 100*(diff2.y)/(diff2.length());
         rc.fin_pos.dir=diff2.dir().radian();
@@ -142,12 +142,14 @@ void TacticTransferObject::addData()
 {
     agentsR1.clear();
     agentsR1.insert(0,wm->ball.pos.loc);//wm->ourRobot[0].pos.loc);
+
     agentsR1.insert(1,wm->ourRobot[1].pos.loc);
     agentsR1.insert(2,wm->ourRobot[2].pos.loc);
 
     agentsR0.clear();
     agentsR0.insert(0,wm->ourRobot[4].pos.loc);//wm->ourRobot[0].pos.loc);
     agentsR0.insert(1,wm->ourRobot[5].pos.loc);
+
     agentsR0.insert(2,wm->oppRobot[0].pos.loc);
 
 }

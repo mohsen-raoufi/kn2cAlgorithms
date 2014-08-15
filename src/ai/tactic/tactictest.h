@@ -23,6 +23,7 @@ private:
     int index;
     int goalRegion;
     int temp;
+    Line2D *testline;
 };
 
 #endif // TACTICTEST_H

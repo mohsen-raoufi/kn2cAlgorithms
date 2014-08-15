@@ -3,7 +3,8 @@
 PlayTest::PlayTest(WorldModel *worldmodel, QObject *parent) :
     Play("PlayTest", worldmodel, parent)
 {
-    tTest=new TacticTransferObject(wm);
+    tTest=new TacticTest(wm);
+    //tTest=new TacticTransferObject(wm);
 }
 
 int PlayTest::enterCondition()
