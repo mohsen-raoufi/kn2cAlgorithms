@@ -33,14 +33,19 @@ void RenderArea::paintEvent(QPaintEvent *)
     painter.setBrush(*brush_field);
     painter.drawRect(0,0,740,540);
 
+    // -------------------- Sharif Cup 2014 ---------------------\\
     //Draw Regions
-    painter.setBrush(*brush_region1);
-    painter.drawRect(270,70,100,50);
+//    painter.setBrush(*brush_region1);
+//    painter.drawRect(270,70,100,50);
 
-    painter.setBrush(*brush_region2);
-    painter.drawRect(270,420,100,50);
+//    painter.setBrush(*brush_region2);
+//    painter.drawRect(270,420,100,50);
 
+    //Draw Line
+    //painter.setBrush();
+    painter.drawLine(320,70,420,470);
 
+    //-------------------- End Sharif Cup 2014 -------------------//
     // FPS
     painter.drawText(20,20,QString::number(_fps.FPS()));
 
