@@ -54,10 +54,11 @@ private:
 
     //! not used
     Segment2D();
-
     bool checkIntersectsOnLine( const Vector2D & p ) const;
 
 public:
+
+
     /*!
       \brief construct from 2 points
       \param origin 1st point of segment edge

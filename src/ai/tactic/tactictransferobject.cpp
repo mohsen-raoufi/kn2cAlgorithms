@@ -66,7 +66,7 @@ RobotCommand TacticTransferObject::getCommand()
 
         Vector2D space2=diff2;
         space2.setLength(300);
-        rc.maxSpeed=0.8;
+        rc.maxSpeed=1.4;
         rc.useNav = true;
         rc.fin_pos.loc=point2 - space2;
         rc.fin_pos.dir=diff2.dir().radian();
@@ -77,7 +77,7 @@ RobotCommand TacticTransferObject::getCommand()
         break;
     case 1:{//Ready to Push
         rc.useNav = false;
-        rc.maxSpeed=0.4;
+        rc.maxSpeed=1.4;
         rc.fin_pos.loc.x=point2.x - 100*(diff2.x)/(diff2.length());
         rc.fin_pos.loc.y=point2.y - 100*(diff2.y)/(diff2.length());
         rc.fin_pos.dir=diff2.dir().radian();
@@ -91,7 +91,9 @@ RobotCommand TacticTransferObject::getCommand()
         //Vector2D diff2 = region2.center() - wm->ourRobot[id].pos.loc ;
         rc.useNav = false;
         if(diff2.length() > 1500) diff2.setLength(1500);
-        if(((wm->ourRobot[id].pos.loc-point2).length())>400) state=0;
+       // if(((wm->ourRobot[id].pos.loc-point2).length())>400) state=0;
+        if(((wm->ourRobot[id].pos.loc-point2).length())>300) state=0;
+        if(((wm->ourRobot[id].pos.loc-point2).length())<100) state=0;
         rc.fin_pos.loc=point2 + diff2/5;
         rc.fin_pos.dir=diff2.dir().radian();
         reach=wm->kn->ReachedToPos(wm->ourRobot[id].pos.loc,rc.fin_pos.loc,150);
@@ -144,13 +146,13 @@ void TacticTransferObject::addData()
     agentsR1.insert(0,wm->ball.pos.loc);//wm->ourRobot[0].pos.loc);
 
     agentsR1.insert(1,wm->ourRobot[1].pos.loc);
-    agentsR1.insert(2,wm->ourRobot[2].pos.loc);
+    //agentsR1.insert(2,wm->ourRobot[2].pos.loc);
 
     agentsR0.clear();
     agentsR0.insert(0,wm->ourRobot[4].pos.loc);//wm->ourRobot[0].pos.loc);
-    agentsR0.insert(1,wm->ourRobot[5].pos.loc);
+    //agentsR0.insert(1,wm->ourRobot[5].pos.loc);
 
-    agentsR0.insert(2,wm->oppRobot[0].pos.loc);
+    //agentsR0.insert(2,wm->oppRobot[0].pos.loc);
 
 }
 
