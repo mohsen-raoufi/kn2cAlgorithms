@@ -26,6 +26,7 @@ private:
     Rect2D region[2];
     //Rect2D region2;
     bool firstInit;
+    bool IsOverTheLine;
     int state;
     int index;
     int obs;

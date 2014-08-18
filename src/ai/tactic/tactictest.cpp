@@ -162,7 +162,7 @@ RobotCommand TacticTest::getCommand()
             //qDebug() << 2*agentsPositive.at(i).goalRegion - 1 ;
             o2o = new Segment2D(origin2 , Vector2D(agentsPositive.at(i)));
             temp2=0;
-            bool IsOverTheLine=false;
+            IsOverTheLine=false;
             for(int j=0;j<segList.size(); j++)
             {
                 if(segList.at(j).existIntersection(*o2o))
@@ -173,35 +173,14 @@ RobotCommand TacticTest::getCommand()
 
             }
 
-            //if(IsOverTheLine) break;
-
-
-
-
-
-
-            //qDebug() << "X_origin = " << segList.at(j).origin().x << " ------- Y-origin = " << segList.at(j).origin().y ;
-            //            if(!segList.at(j).existIntersection(*o2o))
-            //                //!region[agentsPositive.at(i).goalRegion].IsInside(agentsPositive.at(i).pos))
-            //            {
-            //                //qDebug() << "ZAAAAAHREEEE MAAAAAAAAAAAAAAAAAAAAAAARRRRRRRRRRR" << j;
-
-
-            //else
-            // {
-            if(!IsOverTheLine)
+            if(!IsOverTheLine || agentsPositive.at(i).x < origin.x)
             {
                 index=i;
-                //qDebug() << 2*agentsPositive.at(i).goalRegion - 1 ;
                 qDebug() << agentsPositive.at(i).x << " Y ---- " << agentsPositive.at(i).y;// TOOOOOOOOOOOOOOOOOOOSHE !!!!!!!" << index ;
                 //goalRegion=agentsPositive.at(i).goalRegion;
                 temp2=1;
                 break;
             }
-            //}
-
-
-            //if(temp==1) break;
 
         }
 
@@ -214,6 +193,8 @@ RobotCommand TacticTest::getCommand()
 
         if(temp2!=0)
         {
+            if(!IsOverTheLine)
+            {
             switch(state)
             {
             case 0:{ //Go Behind the Object
@@ -288,10 +269,64 @@ RobotCommand TacticTest::getCommand()
                 break;
             }
         }
+            else
+            {
+                {
+                switch(state)
+                {
+                case 0:{ //Go Behind the Object
+
+                    Vector2D space2=diff2;
+                    //int side = agentsPositive.at(index).goalRegion;
+                    space2.setLength(300);
+                    //space2.setDir(space2.dir() + M_PI*side);
+                    rc.maxSpeed=0.8;
+                    rc.useNav = true;
+                    rc.fin_pos.loc=point2 ;// - space2;
+                    rc.fin_pos.loc.x-=300;
+                    rc.fin_pos.dir=0;//diff2.dir().radian();
+                    reach=wm->kn->ReachedToPos(wm->ourRobot[id].pos.loc,rc.fin_pos.loc,50);
+                    if(reach) state = 1;
+
+                }
+                    break;
+                case 1:{//Ready to Push
+
+                    rc.useNav = false;
+                    rc.maxSpeed=0.4;
+                    int side = -1;//agentsPositive.at(index).goalRegion;
+                    rc.fin_pos.loc.x=point2.x +(side)*100;//*(diff2.x)/(diff2.length());
+                    rc.fin_pos.loc.y=point2.y;// +(side)*100*(diff2.y)/(diff2.length());
+                    rc.fin_pos.dir=0;//diff2.dir().radian();
+                    if(((wm->ourRobot[id].pos.loc-point2).length())>400) state=0;
+                    reach=wm->kn->ReachedToPos(wm->ourRobot[id].pos.loc,rc.fin_pos.loc,200);
+                    if(reach)
+                        state = 2;
+                }
+                    break;
+                case 2:{//Push
+                    //Vector2D diff2 = region2.center() - wm->ourRobot[id].pos.loc ;
+                    rc.useNav = false;
+                    double delta=(wm->ourRobot[id].pos.loc.x-origin.x)/5;
+                    if(delta > 1500) delta=1500;
+                    if(((wm->ourRobot[id].pos.loc-point2).length())>300) state=0;
+                    if(((wm->ourRobot[id].pos.loc-point2).length())<180) state=0;
+                    rc.fin_pos.loc=point2;
+                    rc.fin_pos.loc.x -= delta;
+                    rc.fin_pos.dir=0;//diff2.dir().radian();
+
+                }
+                    break;
+            }
+            }
+            }
+        }
+
 //----------------------------------------------------------------------------
 
     }
-    qDebug()<< " ------------------------------ STATE = " << state ;
+    qDebug()<< "fin_pos" << rc.fin_pos.loc.x << "Y"<<rc.fin_pos.loc.y<< " ------------------------------ STATE = " << state ;
+
 
     rc.maxSpeed = 1.2;
     rc.isBallObs = false;

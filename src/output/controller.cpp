@@ -208,6 +208,7 @@ RobotSpeed Controller::calcRobotSpeed_adjt(ControllerInput &ci)
         if (werr1 > M_PI) werr1 -= 2 * M_PI;
         if (werr1 < -M_PI) werr1 += 2 * M_PI;
         RotationSpeed = -werr1;
+
         RotLinearSpeed = Vector2D(0,0);//sorate robot jelo
         if(ci.cur_pos.dir>M_PI/2)
         {
@@ -219,7 +220,7 @@ RobotSpeed Controller::calcRobotSpeed_adjt(ControllerInput &ci)
         werr1 = (ci.cur_pos.dir+M_PI/2);
         if (werr1 > M_PI) werr1 -= 2 * M_PI;
         if (werr1 < -M_PI) werr1 += 2 * M_PI;
-        RotationSpeed = werr1;
+        RotationSpeed = -werr1;
         RotLinearSpeed = Vector2D(0,0);//sorate robot aghab
         if(ci.cur_pos.dir<-M_PI/2)
         {
@@ -268,7 +269,10 @@ RobotSpeed Controller::calcRobotSpeed_adjt(ControllerInput &ci)
 //        }
 //        break;
     }
-
+    if(fabs(RotationSpeed) < 0.2)
+    {
+        RotationSpeed=0.2*sign(RotationSpeed);
+    }
     qDebug()<< werr1 <<"--------------" << ci.cur_pos.dir << RotationSpeed ;
     RobotSpeed ans;
 
