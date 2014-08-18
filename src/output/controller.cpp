@@ -202,71 +202,74 @@ RobotSpeed Controller::calcRobotSpeed_adjt(ControllerInput &ci)
     switch(stateCTRL)
     {
     case 0://jelo
-        RotationSpeed = 0;
-        werr1 = ((Vector2D(1500,0)-ci.cur_pos.loc).dir().radian()) - ci.cur_pos.dir;
-        if (werr1 > M_PI) werr1 -= 2 * M_PI;
-        if (werr1 < -M_PI) werr1 += 2 * M_PI;
-        RotLinearSpeed = Vector2D(1.5,0);//sorate robot jelo
-        if((Vector2D(1500,0) - ci.cur_pos.loc).length()>500 && fabs(werr1)>M_PI/2.0)
-        {
-            stateCTRL = 3;
-        }
-        break;
-    case 1://aghab
-        RotationSpeed = 0;
-        werr1 = ((Vector2D(1500,0)-ci.cur_pos.loc).dir().radian()) - ci.cur_pos.dir;
-        if (werr1 > M_PI) werr1 -= 2 * M_PI;
-        if (werr1 < -M_PI) werr1 += 2 * M_PI;
-        RotLinearSpeed = Vector2D(-.3,0);//sorate robot aghab
-        if((Vector2D(1500,0) - ci.cur_pos.loc).length()>500&& fabs(werr1)<M_PI/2.0)
-        {
-            stateCTRL = 2;
-        }
-        break;
-    case 2://charkhesh
-        RotLinearSpeed = Vector2D(0,0);
-        werr1 = ((Vector2D(1500,0)-ci.cur_pos.loc).dir().radian()) - ci.cur_pos.dir;
-        if (werr1 > M_PI) werr1 -= 2 * M_PI;
-        if (werr1 < -M_PI) werr1 += 2 * M_PI;
+        //RotationSpeed = 1;
 
-        if(werr1<-(M_PI/18.0))
-        {
-            RotationSpeed = -1;
-        }
-        else if(werr1>(M_PI/18.0))
-        {
-            RotationSpeed = 1;
-        }
-        else
-        {
-            RotationSpeed = 0;
-            stateCTRL = 0;
-        }
-
-        break;
-    case 3://charkhesh
-        RotLinearSpeed = Vector2D(0,0);
-        werr1 = ((Vector2D(1200,0)-ci.cur_pos.loc).dir().radian() + M_PI) - ci.cur_pos.dir;
+        werr1 = (ci.cur_pos.dir - M_PI/2);// - ci.cur_pos.dir;
         if (werr1 > M_PI) werr1 -= 2 * M_PI;
         if (werr1 < -M_PI) werr1 += 2 * M_PI;
-
-        if(werr1<-(M_PI/18.0))
+        RotationSpeed = -werr1;
+        RotLinearSpeed = Vector2D(0,0);//sorate robot jelo
+        if(ci.cur_pos.dir>M_PI/2)
         {
-            RotationSpeed = -1;
-        }
-        else if(werr1>(M_PI/18.0))
-        {
-            RotationSpeed = 1;
-        }
-        else
-        {
-            RotationSpeed = 0;
             stateCTRL = 1;
         }
         break;
+    case 1://aghab
+        //RotationSpeed = -1;
+        werr1 = (ci.cur_pos.dir+M_PI/2);
+        if (werr1 > M_PI) werr1 -= 2 * M_PI;
+        if (werr1 < -M_PI) werr1 += 2 * M_PI;
+        RotationSpeed = werr1;
+        RotLinearSpeed = Vector2D(0,0);//sorate robot aghab
+        if(ci.cur_pos.dir<-M_PI/2)
+        {
+            stateCTRL = 0;
+        }
+        break;
+//    case 2://charkhesh
+//        RotLinearSpeed = Vector2D(0,0);
+//        werr1 = ((Vector2D(1500,0)-ci.cur_pos.loc).dir().radian()) - ci.cur_pos.dir;
+//        if (werr1 > M_PI) werr1 -= 2 * M_PI;
+//        if (werr1 < -M_PI) werr1 += 2 * M_PI;
+
+//        if(werr1<-(M_PI/18.0))
+//        {
+//            RotationSpeed = -1;
+//        }
+//        else if(werr1>(M_PI/18.0))
+//        {
+//            RotationSpeed = 1;
+//        }
+//        else
+//        {
+//            RotationSpeed = 0;
+//            stateCTRL = 0;
+//        }
+
+//        break;
+//    case 3://charkhesh
+//        RotLinearSpeed = Vector2D(0,0);
+//        werr1 = ((Vector2D(1200,0)-ci.cur_pos.loc).dir().radian() + M_PI) - ci.cur_pos.dir;
+//        if (werr1 > M_PI) werr1 -= 2 * M_PI;
+//        if (werr1 < -M_PI) werr1 += 2 * M_PI;
+
+//        if(werr1<-(M_PI/18.0))
+//        {
+//            RotationSpeed = -1;
+//        }
+//        else if(werr1>(M_PI/18.0))
+//        {
+//            RotationSpeed = 1;
+//        }
+//        else
+//        {
+//            RotationSpeed = 0;
+//            stateCTRL = 1;
+//        }
+//        break;
     }
 
-
+    qDebug()<< werr1 <<"--------------" << ci.cur_pos.dir << RotationSpeed ;
     RobotSpeed ans;
 
     ans.VX = RotLinearSpeed.x;

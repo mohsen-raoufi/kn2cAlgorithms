@@ -17,10 +17,10 @@ public:
     Vector2D findnearest(Vector2D input);
 
 private:
-    QList<Vector2D> agentsR0;
+    QList<Vector2D> agentsPositive;//R0;
     //QList<Vector2D> a4fSorted;
-    QList<Vector2D> agentsR1;
-    QList<AgentsAndRegions> mergedList;
+    QList<Vector2D> agentsNegative;//R1;
+    //QList<AgentsAndRegions> mergedList;
     QList<Segment2D> segList;
     //QList<Vector2D> a4sSorted;
     Rect2D region[2];
@@ -30,7 +30,7 @@ private:
     int index;
     int obs;
     int goalRegion;
-    int temp;
+    int temp,temp2;
     int count;
     Line2D *testline;
     Segment2D *testseg;
@@ -38,7 +38,7 @@ private:
     Segment2D *r2o; // Robot to Object
     Segment2D *o2o; // Origin to Object
     //Segment2D *seg[2]; // 2 segment line
-    Vector2D origin;
+    Vector2D origin,origin2;
 };
 
 #endif // TACTICTEST_H
