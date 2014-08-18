@@ -325,7 +325,7 @@ RobotCommand TacticTest::getCommand()
 //----------------------------------------------------------------------------
 
     }
-    qDebug()<< "fin_pos" << rc.fin_pos.loc.x << "Y"<<rc.fin_pos.loc.y<< " ------------------------------ STATE = " << state ;
+    qDebug()<< "fin_pos.x  " << rc.fin_pos.loc.x << "  Y  "<<rc.fin_pos.loc.y<< " ------------------------------ STATE = " << state ;
 
 
     rc.maxSpeed = 1.2;
