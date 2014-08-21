@@ -220,6 +220,12 @@ public:
                    const Vector2D & p0,
                    const Vector2D & p1,
                    const Vector2D & p2 );
+    /*!
+     * \brief IsIn : check that a point is inside this circle or not
+     * \param point
+     * \return
+     */\
+    bool IsIn( Vector2D point);
 };
 
 }

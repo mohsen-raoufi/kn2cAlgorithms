@@ -12,8 +12,8 @@ public:
     virtual int enterCondition();
 
 private:
-    //TacticTest *tTest;
-    TacticConfront *tTest;
+    TacticTest *tTest;
+    //TacticConfront *tTest;
     //TacticTransferObject *tTest;
 
 

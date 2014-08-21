@@ -358,4 +358,14 @@ Circle2D::contains( const Vector2D & point,
     return center.dist2( point ) < center.dist2( p0 ) - EPSILON*EPSILON;
 }
 
+/* --------------------------------------------------------------------- */
+bool
+Circle2D::IsIn(Vector2D point )
+{
+    double dist = (point - this->center()).length();
+    if (dist > this->radius()) return false;
+    else return true;
+}
+
+
 }

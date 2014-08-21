@@ -10,6 +10,7 @@ RenderArea::RenderArea(Soccer* sc) :
     brush_brobot = new QBrush(QColor::fromRgb(50,50,255),Qt::SolidPattern);
     brush_region1 = new QBrush(QColor::fromRgb(204,0,0),Qt::SolidPattern);
     brush_region2 = new QBrush(QColor::fromRgb(204,255,255),Qt::SolidPattern);
+    brush_holes = new QBrush(QColor::fromRgb(204,204,204),Qt::SolidPattern);
     _timer.start(40);
     connect(&_timer,SIGNAL(timeout()), this, SLOT(refresh()));
 }
@@ -33,6 +34,19 @@ void RenderArea::paintEvent(QPaintEvent *)
     painter.setBrush(*brush_field);
     painter.drawRect(0,0,740,540);
 
+    //      // //    Draw circle FOR MISION III
+    painter.setPen(QColor::fromRgb(0,0,0));
+    painter.drawEllipse(QPoint(150+CENTER_X,0+CENTER_Y),200/2,200/2);
+    painter.setPen(QColor::fromRgb(204,51,0));
+    painter.drawEllipse(QPoint(150+CENTER_X,0+CENTER_Y),175/2,175/2);
+    // //               H O L E S
+    painter.setBrush(*brush_holes);
+    //painter.setPen(QColor::fromRgb(0,0,0));
+    painter.drawEllipse(QPoint(150+CENTER_X,0+CENTER_Y+170/4),25/2,25/2);
+
+    //painter.setBrush(*brush_holes);
+    //painter.setPen(QColor::fromRgb(0,0,0));
+    painter.drawEllipse(QPoint(150+CENTER_X,0+CENTER_Y-170/4),25/2,25/2);
 
     // FPS
     painter.drawText(20,20,QString::number(_fps.FPS()));
@@ -40,7 +54,7 @@ void RenderArea::paintEvent(QPaintEvent *)
     painter.translate(CENTER_X,CENTER_Y);
 
     // -------------------- Sharif Cup 2014 ---------------------\\
-//       // //   Draw Regions
+//       // //   Draw Regions FOR MISION I
 
 //    painter.setBrush(*brush_region1);
 //    painter.drawRect(-100,150,100,50);//270,70,100,50);
@@ -52,10 +66,15 @@ void RenderArea::paintEvent(QPaintEvent *)
 //    painter.setPen(QColor::fromRgb(0,0,0));
 //    painter.drawText(-65,-170,"Reg 2");
 
-//      // //    Draw Line
+//      // //    Draw Line FOR MISION II
 
-    painter.drawLine(-50, 200,0,0);
-    painter.drawLine(-50,-200,0,0);
+//    painter.drawLine(-50, 200,0,0);
+//    painter.drawLine(-50,-200,0,0);
+
+
+//      // //    Draw Line FOR MISION III
+
+
 
 
     // CENTERofField = (0,0)
