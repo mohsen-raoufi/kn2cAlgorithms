@@ -13,6 +13,7 @@ public:
 
 private:
     TacticTest *tTest;
+    //TacticPush2Goal *tTest;
     //TacticConfront *tTest;
     //TacticTransferObject *tTest;
 

@@ -19,5 +19,6 @@
 #include "tactic/tacticpenaltykicker.h"
 #include "tactic/tactictransferobject.h"
 #include "tactic/tacticconfront.h"
+#include "tactic/tacticpush2goal.h"
 
 #endif // TACTICS_H

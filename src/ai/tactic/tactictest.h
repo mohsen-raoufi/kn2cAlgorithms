@@ -13,7 +13,9 @@ public:
     void addData();
     void mergeData();
     void sortData();
-    Vector2D findnearest(Vector2D input);
+    void goOncircle2point(Vector2D pnt);
+    Vector2D findnearest2circle();
+    Vector2D findnearesthole(Vector2D pnt);
 
 private:
     QList<Vector2D> balls;//R0;
@@ -25,21 +27,23 @@ private:
     //Rect2D region[2];
     //Rect2D region2;
     bool firstInit;
-    bool IsInside,IsInside2,unAccessible;
+    bool IsInside,IsInside2,Accessible,oppIsInField,AllIn,AnyIn;
     int state,state2;
     int index;
     //int obs;
     //int goalRegion;
     int temp,temp2;
     int count;
-    Circle2D circularBorder,circularBorderOut,hole1,hole2;
+    double Uangle1,Uangle2,Dangle1,Dangle2;
+    Circle2D circularBorder,circularBorderOut,hole1,hole2,circularMid;
     //Line2D *testline;
     //Segment2D *testseg;
     //Segment2D *tseg;
     Segment2D *r2o; // Robot to Object
     Segment2D *c2o; // cCenter to Object
+    //Ray2D c2b;
     //Segment2D *seg[2]; // 2 segment line
-    Vector2D vec2goal;//origin,origin2;
+    Vector2D vec2goal,OppositeRobot,point,p2o;//,c2o,origin,origin2;
 };
 
 #endif // TACTICTEST_H
