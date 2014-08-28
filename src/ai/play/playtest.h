@@ -12,11 +12,11 @@ public:
     virtual int enterCondition();
 
 private:
-    TacticTest *tTest;
-    //TacticPush2Goal *tTest;
+    //TacticTest *tTest;
+    TacticPush2Goal *tTest;
     //TacticConfront *tTest;
     //TacticTransferObject *tTest;
-
+    //TacticAttacker *tTest;
 
     //Line2D *testline;
 

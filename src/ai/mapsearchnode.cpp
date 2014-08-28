@@ -167,6 +167,8 @@ QList<Circle2D> MapSearchNode::getObsCircle()
         Circle2D c(wm->oppRobot[i].pos.loc, r_rad);
         result.append(c);
     }
+    //Circle2D cc(Vector2D(1500,0),875);
+    //result.append(cc);
 
     return result;
 }

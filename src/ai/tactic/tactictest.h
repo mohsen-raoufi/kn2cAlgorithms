@@ -2,7 +2,8 @@
 #define TACTICTEST_H
 
 #include "tactic.h"
-#include "tactictransferobject.h"
+#include "ball.h"
+//#include "tactictransferobject.h"
 
 class TacticTest : public Tactic
 {
@@ -18,7 +19,7 @@ public:
     Vector2D findnearesthole(Vector2D pnt);
 
 private:
-    QList<Vector2D> balls;//R0;
+    QList<Ball *> balls;//R0;
     //QList<Vector2D> a4fSorted;
     //QList<Vector2D> agentsNegative;//R1;
     //QList<AgentsAndRegions> mergedList;
@@ -27,7 +28,7 @@ private:
     //Rect2D region[2];
     //Rect2D region2;
     bool firstInit;
-    bool IsInside,IsInside2,Accessible,oppIsInField,AllIn,AnyIn;
+    bool IsInside,IsInside2,Accessible,oppIsInField,AllIn,AnyIn,towardH1,towardH2;
     int state,state2;
     int index;
     //int obs;
@@ -36,7 +37,7 @@ private:
     int count;
     double Uangle1,Uangle2,Dangle1,Dangle2;
     Circle2D circularBorder,circularBorderOut,hole1,hole2,circularMid;
-    //Line2D *testline;
+    Line2D *ballVel;//b2h1,*b2h2;
     //Segment2D *testseg;
     //Segment2D *tseg;
     Segment2D *r2o; // Robot to Object

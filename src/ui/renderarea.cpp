@@ -35,8 +35,13 @@ void RenderArea::paintEvent(QPaintEvent *)
     painter.drawRect(0,0,740,540);
 
     //      // //    Draw circle FOR MISION III
+
+    painter.setBrush(*brush_field);
+    painter.drawRect(CENTER_X-25,CENTER_Y-175,350,350);
+
+
     painter.setPen(QColor::fromRgb(0,0,0));
-    painter.drawEllipse(QPoint(150+CENTER_X,0+CENTER_Y),200/2,200/2);
+    painter.drawEllipse(QPoint(150+CENTER_X,0+CENTER_Y),175,175);//200/2,200/2);
     painter.setPen(QColor::fromRgb(204,51,0));
     painter.drawEllipse(QPoint(150+CENTER_X,0+CENTER_Y),175/2,175/2);
     // //               H O L E S
@@ -47,6 +52,7 @@ void RenderArea::paintEvent(QPaintEvent *)
     //painter.setBrush(*brush_holes);
     //painter.setPen(QColor::fromRgb(0,0,0));
     painter.drawEllipse(QPoint(150+CENTER_X,0+CENTER_Y-170/4),25/2,25/2);
+
 
     // FPS
     painter.drawText(20,20,QString::number(_fps.FPS()));

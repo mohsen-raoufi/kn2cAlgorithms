@@ -221,11 +221,42 @@ public:
                    const Vector2D & p1,
                    const Vector2D & p2 );
     /*!
-     * \brief IsIn : check that a point is inside this circle or not
+     * \brief HasIntersection : check that this Line2D Has Intersection with circle or not
      * \param point
      * \return
      */\
-    bool IsIn( Vector2D point);
+    bool HasIntersection( Line2D line);
+
+    /*!
+     * \brief HasIntersection( : check that this line Has Intersection with this circle or not , and a safety factor for distance to center
+     * \param point , SafetyFactor
+     * \return
+     */\
+    bool HasIntersection( Line2D line , float SF);
+
+    /*!
+     * \brief HasIntersection : check that this segment Has Intersection with circle or not
+     * \param point
+     * \return
+     */\
+    bool HasIntersection( Segment2D Seg);
+
+    /*!
+     * \brief HasIntersection( : check that this segment Has Intersection with this circle or not , and a safety factor for distance to center
+     * \param point , SafetyFactor
+     * \return
+     */\
+    bool HasIntersection( Segment2D Seg , float SF);
+
+
+
+    /*!
+     * \brief Intersect : If HasIntersection, return intersec point
+     * \param pnt
+     * \return intersection Point
+     */
+    Vector2D nearestpoint(Vector2D pnt);
+
 };
 
 }

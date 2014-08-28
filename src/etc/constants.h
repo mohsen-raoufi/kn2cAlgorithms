@@ -29,7 +29,7 @@
 
 
 // Timer speeds
-#define TRANSMITTER_TIMER   15
+#define TRANSMITTER_TIMER   16
 #define AI_TIMER            15
 
 namespace Field

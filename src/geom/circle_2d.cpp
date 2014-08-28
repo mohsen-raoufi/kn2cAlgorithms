@@ -360,11 +360,42 @@ Circle2D::contains( const Vector2D & point,
 
 /* --------------------------------------------------------------------- */
 bool
-Circle2D::IsIn(Vector2D point )
+Circle2D::HasIntersection(Line2D line )
 {
-    double dist = (point - this->center()).length();
+    double dist = line.dist(this->center());
     if (dist > this->radius()) return false;
     else return true;
+}
+
+bool Circle2D::HasIntersection(Line2D line, float SF)
+{
+    double dist = line.dist(this->center());
+    if (dist > SF*this->radius()) return false;
+    else return true;
+}
+
+bool Circle2D::HasIntersection(Segment2D Seg, float SF)
+{
+    double dist = Seg.dist(this->center());
+    if (dist > SF*this->radius()) return false;
+    else return true;
+}
+
+bool Circle2D::HasIntersection(Segment2D Seg)
+{
+    double dist = Seg.dist(this->center());
+    if (dist > this->radius()) return false;
+    else return true;
+}
+/* ---------------------------------------------------------------------- */
+Vector2D Circle2D::nearestpoint(Vector2D pnt)
+{
+
+        Vector2D diff = pnt - this->center();
+        diff.setLength(this->radius());
+        Vector2D dest=this->center()+diff;
+        return dest;
+
 }
 
 
